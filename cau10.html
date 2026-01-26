@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Hiển thị kích thước cửa sổ</title>
+</head>
+<body>
+  <h2>Kích thước cửa sổ trình duyệt:</h2>
+  <p id="sizeDisplay"></p>
+
+  <script>
+    function updateWindowSize() {
+      const width = window.innerWidth;
+      const height = window.innerHeight;
+      document.getElementById("sizeDisplay").innerText = `Chiều rộng: ${width}px, Chiều cao: ${height}px`;
+    }
+
+    // Gọi hàm khi trang vừa tải
+    updateWindowSize();
+
+    // Gọi lại mỗi khi resize cửa sổ
+    window.onresize = updateWindowSize;
+  </script>
+</body>
+</html>
