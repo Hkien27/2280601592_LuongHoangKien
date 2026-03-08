@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div class="app">
+
+    <header class="top">
+        <h2>📊 Student Manager</h2>
+        <div class="right">
+            <input type="text" id="searchInput" placeholder="Tìm theo tên hoặc mã...">
+            <button id="themeBtn">🌙</button>
+        </div>
+    </header>
+
+    <section class="form-section">
+        <h3>Thêm sinh viên</h3>
+        <form id="addForm">
+            <input type="text" id="inputId" placeholder="Mã SV">
+            <input type="text" id="inputName" placeholder="Họ tên">
+            <input type="text" id="inputClass" placeholder="Lớp">
+            <input type="email" id="inputEmail" placeholder="Email">
+            <button type="submit">Thêm</button>
+        </form>
+        <p id="errorBox" class="error"></p>
+    </section>
+
+    <section class="table-section">
+        <table>
+            <thead>
+                <tr>
+                    <th>Mã SV</th>
+                    <th>Tên</th>
+                    <th>Lớp</th>
+                    <th>Email</th>
+                    <th>Xóa</th>
+                </tr>
+            </thead>
+            <tbody id="studentTable"></tbody>
+        </table>
+    </section>
+
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
