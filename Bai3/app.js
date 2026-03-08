@@ -55,3 +55,40 @@ function renderTable(list) {
         table.appendChild(row);
     });
 }
+/* ================= ADD ================= */
+
+document.getElementById("addForm").addEventListener("submit", function(e) {
+    e.preventDefault();
+
+    const id = document.getElementById("inputId").value.trim();
+    const name = document.getElementById("inputName").value.trim();
+    const className = document.getElementById("inputClass").value.trim();
+    const email = document.getElementById("inputEmail").value.trim();
+    const errorBox = document.getElementById("errorBox");
+
+    errorBox.textContent = "";
+
+    if (!id || !name || !className || !email) {
+        errorBox.textContent = "Vui lòng nhập đầy đủ thông tin!";
+        return;
+    }
+
+    const exists = students.some(s => s.id.toLowerCase() === id.toLowerCase());
+    if (exists) {
+        errorBox.textContent = "Mã sinh viên đã tồn tại!";
+        return;
+    }
+
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!emailRegex.test(email)) {
+        errorBox.textContent = "Email không hợp lệ!";
+        return;
+    }
+
+    const newStudent = { id, name, className, email };
+    students.push(newStudent);
+    saveStudents();
+    renderTable(students);
+
+    this.reset();
+});
