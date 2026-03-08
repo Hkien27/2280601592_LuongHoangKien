@@ -20,3 +20,38 @@ const defaultData = [
 let students = loadStudents();
 renderTable(students);
 loadTheme();
+
+/* ================= LOAD / SAVE ================= */
+
+function loadStudents() {
+    const data = localStorage.getItem(STORAGE_KEY);
+    if (data) return JSON.parse(data);
+
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(defaultData));
+    return defaultData;
+}
+
+function saveStudents() {
+    localStorage.setItem(STORAGE_KEY, JSON.stringify(students));
+}
+
+/* ================= RENDER ================= */
+
+function renderTable(list) {
+    const table = document.getElementById("studentTable");
+    table.innerHTML = "";
+
+    list.forEach(student => {
+        const row = document.createElement("tr");
+
+        row.innerHTML = `
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.className}</td>
+            <td>${student.email}</td>
+            <td><button onclick="deleteStudent('${student.id}')">X</button></td>
+        `;
+
+        table.appendChild(row);
+    });
+}
