@@ -92,3 +92,24 @@ document.getElementById("addForm").addEventListener("submit", function(e) {
 
     this.reset();
 });
+
+/* ================= DELETE ================= */
+
+function deleteStudent(id) {
+    students = students.filter(s => s.id !== id);
+    saveStudents();
+    renderTable(students);
+}
+
+/* ================= SEARCH ================= */
+
+document.getElementById("searchInput").addEventListener("input", function() {
+    const keyword = this.value.toLowerCase();
+
+    const filtered = students.filter(s =>
+        s.name.toLowerCase().includes(keyword) ||
+        s.id.toLowerCase().includes(keyword)
+    );
+
+    renderTable(filtered);
+});
