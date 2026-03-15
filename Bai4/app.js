@@ -42,6 +42,11 @@ function setupEventListeners() {
     document.getElementById("sortOptions").addEventListener("change", applyFilterAndSort);
     document.getElementById("searchInput").addEventListener("input", applyFilterAndSort);
 
+    // Feature 03: Import/Export
+    document.getElementById("exportBtn").addEventListener("click", exportData);
+    document.getElementById("importFile").addEventListener("change", importData);
+
+
 function handleFormSubmit(form) {
     const id = document.getElementById("inputId").value.trim();
     const name = document.getElementById("inputName").value.trim();
@@ -119,4 +124,35 @@ function setupKeyboardShortcuts() {
             exitEditMode();
         }
     });
+}
+
+// Import/Export logic giữ nguyên nhưng thêm showToast
+function exportData() {
+    const data = { time: new Date(), students };
+    const blob = new Blob([JSON.stringify(data, null, 2)], { type: "application/json" });
+    const a = document.createElement("a");
+    a.href = URL.createObjectURL(blob);
+    a.download = `students_${Date.now()}.json`;
+    a.click();
+    showToast("Đã xuất file JSON");
+}
+
+function importData(e) {
+    const file = e.target.files[0];
+    if (!file) return;
+    const reader = new FileReader();
+    reader.onload = function(event) {
+        try {
+            const data = JSON.parse(event.target.result);
+            if (data.students) {
+                students = data.students;
+                saveStudents();
+                applyFilterAndSort();
+                showToast("Import thành công!");
+            }
+        } catch (err) {
+            showToast("File không hợp lệ!", "error");
+        }
+    };
+    reader.readAsText(file);
 }
