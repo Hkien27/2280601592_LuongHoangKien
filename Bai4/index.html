@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <title>Student Dashboard Pro</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+<div id="toast-container"></div> <div class="app">
+    <header class="top">
+        <h2>📊 Student Manager Pro</h2>
+        <div class="right">
+            <input type="text" id="searchInput" placeholder="Tìm tên/mã... (Alt+S)">
+            <select id="classFilter">
+                <option value="">Tất cả lớp</option>
+                <option value="CNTT01">CNTT01</option>
+                <option value="CNTT02">CNTT02</option>
+                <option value="CNTT03">CNTT03</option>
+                <option value="CNTT04">CNTT04</option>
+            </select>
+            <select id="sortOptions">
+                <option value="name-asc">Tên A-Z</option>
+                <option value="name-desc">Tên Z-A</option>
+                <option value="grade-asc">Điểm thấp -> cao</option>
+                <option value="grade-desc">Điểm cao -> thấp</option>
+            </select>
+            <button id="themeBtn" aria-label="Toggle Theme">🌙</button>
+        </div>
+    </header>
+
+    <div class="toolbar">
+        <input type="file" id="importFile" style="display:none">
+        <button onclick="document.getElementById('importFile').click()">Import JSON</button>
+        <button id="exportBtn">Export JSON</button>
+        <button id="bulkDeleteBtn" class="btn-danger" style="display:none">Xóa mục đã chọn</button>
+    </div>
+
+    <section class="form-section">
+        <h3>Thêm/Cập nhật sinh viên</h3>
+        <form id="addForm">
+            <input type="text" id="inputId" placeholder="Mã SV" required>
+            <input type="text" id="inputName" placeholder="Họ tên" required>
+            <input type="text" id="inputClass" placeholder="Lớp" required>
+            <input type="number" id="inputGrade" placeholder="Điểm (0-10)" min="0" max="10" step="0.1" required>
+            <input type="email" id="inputEmail" placeholder="Email" required>
+            <button type="submit" id="submitBtn">Thêm</button>
+            <button type="button" id="cancelEdit" style="display:none">Hủy</button>
+        </form>
+        <p id="errorBox" class="error"></p>
+    </section>
+
+    <section class="table-section">
+        <table>
+            <thead>
+                <tr>
+                    <th><input type="checkbox" id="selectAll"></th>
+                    <th>Mã SV</th>
+                    <th>Tên</th>
+                    <th>Lớp</th>
+                    <th>Điểm</th>
+                    <th>Email</th>
+                    <th>Thao tác</th>
+                </tr>
+            </thead>
+            <tbody id="studentTable"></tbody>
+        </table>
+        <div id="loading" style="display:none">Đang xử lý...</div>
+    </section>
+</div>
+
+<script src="app.js"></script>
+</body>
+</html>
