@@ -126,11 +126,11 @@ function loadTheme() {
 document.getElementById("themeBtn").addEventListener("click", function() {
     document.body.classList.toggle("dark-mode");
 
-    if (document.body.classList.contains("dark-mode")) {
-        localStorage.setItem(THEME_KEY, "dark");s
-        this.textContent = "☀️";
-    } else {
-        localStorage.setItem(THEME_KEY, "light");
-        this.textContent = "🌙";
-    }
+if (document.body.classList.contains("dark-mode")) {
+    localStorage.setItem(THEME_KEY, "dark");
+    this.textContent = "🌞";
+} else {
+    localStorage.setItem(THEME_KEY, "light");
+    this.textContent = "🌙";
+}
 });
