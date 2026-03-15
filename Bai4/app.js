@@ -19,7 +19,6 @@ function initApp() {
     setupEventListeners();
     setupKeyboardShortcuts(); // Feature 06
 }
-
 /* ================= FEATURE 01: CRUD NÂNG CAO & VALIDATE ================= */
 function loadStudents() {
     const data = localStorage.getItem(STORAGE_KEY);
@@ -37,6 +36,11 @@ function setupEventListeners() {
         handleFormSubmit(this);
     });
 }
+
+    // Feature 02: Filter & Sort
+    document.getElementById("classFilter").addEventListener("change", applyFilterAndSort);
+    document.getElementById("sortOptions").addEventListener("change", applyFilterAndSort);
+    document.getElementById("searchInput").addEventListener("input", applyFilterAndSort);
 
 function handleFormSubmit(form) {
     const id = document.getElementById("inputId").value.trim();
@@ -69,6 +73,31 @@ function handleFormSubmit(form) {
     applyFilterAndSort();
     form.reset();
 }
+
+/* ================= FEATURE 02: BỘ LỌC + SẮP XẾP ================= */
+function applyFilterAndSort() {
+    const classVal = document.getElementById("classFilter").value;
+    const searchVal = document.getElementById("searchInput").value.toLowerCase();
+    const sortVal = document.getElementById("sortOptions").value;
+
+    let filtered = students.filter(s => {
+        const matchesClass = classVal === "" || s.className === classVal;
+        const matchesSearch = s.name.toLowerCase().includes(searchVal) || s.id.toLowerCase().includes(searchVal);
+        return matchesClass && matchesSearch;
+    });
+
+    // Sorting
+    filtered.sort((a, b) => {
+        if (sortVal === "name-asc") return a.name.localeCompare(b.name);
+        if (sortVal === "name-desc") return b.name.localeCompare(a.name);
+        if (sortVal === "grade-asc") return a.grade - b.grade;
+        if (sortVal === "grade-desc") return b.grade - a.grade;
+        return 0;
+    });
+
+    renderTable(filtered);
+}
+
 /* ================= FEATURE 05: UX POLISH (TOAST) ================= */
 function showToast(message, type = "success") {
     const container = document.getElementById("toast-container");
@@ -77,4 +106,17 @@ function showToast(message, type = "success") {
     toast.textContent = message;
     container.appendChild(toast);
     setTimeout(() => toast.remove(), 3000);
+}
+
+/* ================= FEATURE 06: KEYBOARD SHORTCUTS ================= */
+function setupKeyboardShortcuts() {
+    window.addEventListener("keydown", (e) => {
+        if (e.altKey && e.key === 's') { // Alt + S: Focus Search
+            e.preventDefault();
+            document.getElementById("searchInput").focus();
+        }
+        if (e.key === "Escape" && editModeId) { // Esc: Cancel Edit
+            exitEditMode();
+        }
+    });
 }
