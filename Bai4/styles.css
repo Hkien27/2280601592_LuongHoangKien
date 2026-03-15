@@ -1,0 +1,127 @@
+body {
+    margin: 0;
+    font-family: Arial;
+    background: #f1f5f9;
+    transition: 0.3s;
+}
+
+.dark-mode {
+    background: #0f172a;
+    color: white;
+}
+
+.app {
+    width: 90%;
+    max-width: 1000px;
+    margin: 40px auto;
+}
+
+.top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.top input {
+    padding: 6px;
+}
+
+button {
+    padding: 6px 10px;
+    cursor: pointer;
+}
+
+.form-section {
+    background: white;
+    padding: 20px;
+    margin-top: 20px;
+    border-radius: 8px;
+}
+
+.dark-mode .form-section {
+    background: #1e293b;
+}
+
+.form-section input {
+    padding: 8px;
+    margin: 5px;
+}
+
+.table-section {
+    margin-top: 20px;
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+}
+
+.dark-mode .table-section {
+    background: #1e293b;
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+th, td {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+    text-align: center;
+}
+
+.dark-mode th,
+.dark-mode td {
+    border-color: #334155;
+}
+
+.error {
+    color: red;
+    margin-top: 10px;
+}
+
+
+.btn-danger {
+    background: #ef4444;
+    color: white;
+    border: none;
+}
+
+/* Feature 05: Toast Notifications */
+#toast-container {
+    position: fixed;
+    top: 20px;
+    right: 20px;
+    z-index: 1000;
+}
+
+.toast {
+    padding: 12px 20px;
+    margin-bottom: 10px;
+    border-radius: 4px;
+    color: white;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    animation: slideIn 0.3s ease-out;
+}
+
+.toast.success { background: #10b981; }
+.toast.error { background: #f43f5e; }
+
+@keyframes slideIn {
+    from { transform: translateX(100%); opacity: 0; }
+    to { transform: translateX(0); opacity: 1; }
+}
+
+/* Feature 07: Accessibility & UX */
+button:focus, input:focus {
+    outline: 2px solid #3b82f6;
+    outline-offset: 2px;
+}
+
+.toolbar {
+    margin: 20px 0;
+    display: flex;
+    gap: 10px;
+}
+
+/* Responsive Table */
+.table-section { overflow-x: auto; }
