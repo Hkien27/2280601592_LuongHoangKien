@@ -19,6 +19,7 @@ function initApp() {
     setupEventListeners();
     setupKeyboardShortcuts(); // Feature 06
 }
+
 /* ================= FEATURE 01: CRUD NÂNG CAO & VALIDATE ================= */
 function loadStudents() {
     const data = localStorage.getItem(STORAGE_KEY);
@@ -35,7 +36,6 @@ function setupEventListeners() {
         e.preventDefault();
         handleFormSubmit(this);
     });
-}
 
     // Feature 02: Filter & Sort
     document.getElementById("classFilter").addEventListener("change", applyFilterAndSort);
@@ -46,6 +46,10 @@ function setupEventListeners() {
     document.getElementById("exportBtn").addEventListener("click", exportData);
     document.getElementById("importFile").addEventListener("change", importData);
 
+    // Feature 04: Bulk actions
+    document.getElementById("selectAll").addEventListener("change", toggleSelectAll);
+    document.getElementById("bulkDeleteBtn").addEventListener("click", bulkDelete);
+}
 
 function handleFormSubmit(form) {
     const id = document.getElementById("inputId").value.trim();
@@ -103,6 +107,52 @@ function applyFilterAndSort() {
     renderTable(filtered);
 }
 
+/* ================= FEATURE 04: BULK ACTIONS ================= */
+function renderTable(list) {
+    const tableBody = document.getElementById("studentTable");
+    tableBody.innerHTML = "";
+
+    list.forEach(student => {
+        const row = document.createElement("tr");
+        row.innerHTML = `
+            <td><input type="checkbox" class="row-checkbox" value="${student.id}" onclick="updateBulkBtn()"></td>
+            <td>${student.id}</td>
+            <td>${student.name}</td>
+            <td>${student.className}</td>
+            <td>${student.grade}</td>
+            <td>${student.email}</td>
+            <td>
+                <button onclick="enterEditMode('${student.id}')">Sửa</button>
+                <button class="btn-danger" onclick="deleteStudent('${student.id}')">Xóa</button>
+            </td>
+        `;
+        tableBody.appendChild(row);
+    });
+    updateBulkBtn();
+}
+
+function toggleSelectAll(e) {
+    const checkboxes = document.querySelectorAll(".row-checkbox");
+    checkboxes.forEach(cb => cb.checked = e.target.checked);
+    updateBulkBtn();
+}
+
+function updateBulkBtn() {
+    const selected = document.querySelectorAll(".row-checkbox:checked").length;
+    const btn = document.getElementById("bulkDeleteBtn");
+    btn.style.display = selected > 0 ? "inline-block" : "none";
+    btn.textContent = `Xóa ${selected} mục`;
+}
+
+function bulkDelete() {
+    if (!confirm("Bạn có chắc chắn muốn xóa các mục đã chọn?")) return;
+    const selectedIds = Array.from(document.querySelectorAll(".row-checkbox:checked")).map(cb => cb.value);
+    students = students.filter(s => !selectedIds.includes(s.id));
+    saveStudents();
+    applyFilterAndSort();
+    showToast(`Đã xóa ${selectedIds.length} sinh viên`);
+}
+
 /* ================= FEATURE 05: UX POLISH (TOAST) ================= */
 function showToast(message, type = "success") {
     const container = document.getElementById("toast-container");
@@ -125,6 +175,40 @@ function setupKeyboardShortcuts() {
         }
     });
 }
+
+/* ================= CHỨC NĂNG PHỤ TRỢ ================= */
+function deleteStudent(id) {
+    if (confirm("Xóa sinh viên này?")) {
+        students = students.filter(s => s.id !== id);
+        saveStudents();
+        applyFilterAndSort();
+        showToast("Đã xóa!");
+    }
+}
+
+function enterEditMode(id) {
+    const s = students.find(item => item.id === id);
+    editModeId = id;
+    document.getElementById("inputId").value = s.id;
+    document.getElementById("inputId").readOnly = true;
+    document.getElementById("inputName").value = s.name;
+    document.getElementById("inputClass").value = s.className;
+    document.getElementById("inputEmail").value = s.email;
+    document.getElementById("inputGrade").value = s.grade;
+    document.getElementById("submitBtn").textContent = "Cập nhật";
+    document.getElementById("cancelEdit").style.display = "inline-block";
+    window.scrollTo(0, 0);
+}
+
+function exitEditMode() {
+    editModeId = null;
+    document.getElementById("addForm").reset();
+    document.getElementById("inputId").readOnly = false;
+    document.getElementById("submitBtn").textContent = "Thêm";
+    document.getElementById("cancelEdit").style.display = "none";
+}
+
+document.getElementById("cancelEdit").onclick = exitEditMode;
 
 // Import/Export logic giữ nguyên nhưng thêm showToast
 function exportData() {
@@ -156,3 +240,13 @@ function importData(e) {
     };
     reader.readAsText(file);
 }
+
+// Dark Mode
+function loadTheme() {
+    if (localStorage.getItem(THEME_KEY) === "dark") document.body.classList.add("dark-mode");
+}
+
+document.getElementById("themeBtn").onclick = function() {
+    document.body.classList.toggle("dark-mode");
+    localStorage.setItem(THEME_KEY, document.body.classList.contains("dark-mode") ? "dark" : "light");
+};
