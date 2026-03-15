@@ -113,3 +113,24 @@ document.getElementById("searchInput").addEventListener("input", function() {
 
     renderTable(filtered);
 });
+/* ================= DARK MODE ================= */
+
+function loadTheme() {
+    const theme = localStorage.getItem(THEME_KEY);
+    if (theme === "dark") {
+        document.body.classList.add("dark-mode");
+        document.getElementById("themeBtn").textContent = "☀️";
+    }
+}
+
+document.getElementById("themeBtn").addEventListener("click", function() {
+    document.body.classList.toggle("dark-mode");
+
+    if (document.body.classList.contains("dark-mode")) {
+        localStorage.setItem(THEME_KEY, "dark");s
+        this.textContent = "☀️";
+    } else {
+        localStorage.setItem(THEME_KEY, "light");
+        this.textContent = "🌙";
+    }
+});
