@@ -3,7 +3,7 @@ name: CI/CD Pipeline
 on:
   push:
     branches:
-      - main   # chỉ chạy khi push lên branch main
+      - main
 
 jobs:
   build:
@@ -17,9 +17,9 @@ jobs:
 
       - name: Test files
         run: |
-          test -f public/index.html || exit 1
-          test -f public/styles.css || exit 1
-          test -f public/js/main.js || exit 1
+          test -f docs/index.html || exit 1
+          test -f docs/styles.css || exit 1
+          test -f docs/js/main.js || exit 1
 
   deploy:
     needs: build
@@ -32,4 +32,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./public
+          publish_dir: ./docs
