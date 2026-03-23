@@ -1,5 +1,5 @@
 // BaiTap7 - CI/CD Demo - Dynamic timestamp update
-
+// bai7
 document.addEventListener('DOMContentLoaded', function () {
     const timestampEl = document.getElementById('timestamp');
     const commitHashEl = document.getElementById('commit-hash');
