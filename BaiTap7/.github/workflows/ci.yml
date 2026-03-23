@@ -17,9 +17,9 @@ jobs:
 
       - name: Test files
         run: |
-          test -f docs/index.html || exit 1
-          test -f docs/styles.css || exit 1
-          test -f docs/js/main.js || exit 1
+          test -f BaiTap7/docs/index.html || exit 1
+          test -f BaiTap7/docs/styles.css || exit 1
+          test -f BaiTap7/docs/js/main.js || exit 1
 
   deploy:
     needs: build
@@ -32,4 +32,4 @@ jobs:
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./docs
+          publish_dir: ./BaiTap7/docs
